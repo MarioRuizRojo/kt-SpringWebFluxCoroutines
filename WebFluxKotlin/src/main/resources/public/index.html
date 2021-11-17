@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calculate Equation</title>
+</head>
+<body>
+
+<script>
+	
+	function showInfo(message){
+		var displayer1 = document.getElementById('textDisplayer1');
+		displayer1.innerHTML = message;
+	}
+	function sendNumbersGroup(){
+		var p1 = document.getElementById('p1').value;
+		var p2 = document.getElementById('p2').value;
+		var p3 = document.getElementById('p3').value;
+		var p4 = document.getElementById('p4').value;
+		var p5 = document.getElementById('p5').value;
+		var p6 = document.getElementById('p6').value;
+		var p7 = document.getElementById('p7').value;
+		var numbersGroup = {numbersG:[p1,p2,p3,p4,p5,p6,p7]};
+		fetch('/api/equation',
+			{
+	            method: 'POST',
+	            body: JSON.stringify(numbersGroup),
+	            headers: {
+	                'Content-Type': 'application/json'
+	            }
+            }
+		)
+		.then( responsePromise => responsePromise.json())
+		.then( jResult => showInfo('result is: '+jResult[0]))
+		.catch( errorTxt => showInfo('error: '+errorTxt))
+	}
+	
+</script>
+
+<h1>Set parameters and press calculate</h1>
+
+<!-- <form> -->
+	<label>Parameter 1</label>
+	<input id='p1' type='number'/>
+	
+	<label>Parameter 2</label>
+	<input id='p2' type='number'/>
+	
+	<label>Parameter 3</label>
+	<input id='p3' type='number'/>
+	
+	<label>Parameter 4</label>
+	<input id='p4' type='number'/>
+	
+	<label>Parameter 5</label>
+	<input id='p5' type='number'/>
+	
+	<label>Parameter 6</label>
+	<input id='p6' type='number'/>
+	
+	<label>Parameter 7</label>
+	<input id='p7' type='number'/>
+	
+	<button type='button' onclick='sendNumbersGroup();'>Calculate</button>
+<!-- </form> -->
+	<br>
+	<p id='textDisplayer1'></p >
+</body>
+</html>
